@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react';
 import { createClient} from '@supabase/supabase-js';
+import Header from './components/Header.jsx';
 
 const supaUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const supabase = createClient(supaUrl, supabaseAnonKey);
-//works now ! Merging side_br to Main branch !
+
 
 function App() {
-  const [seasons, setSeasons] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() =>{
     const fetchSeasons = async () => {
@@ -26,21 +24,35 @@ function App() {
     fetchSeasons();
   }, [])
 
+  // Seasons
+  const [seasons, setSeasons] = useState([]); 
+
+  // About modal
+  const [modalAboutOpen, setModalAboutOpen] = useState(false);
+  const openAboutModal = () => setModalAboutOpen(true);
+  const closeAboutModal = () => setModalAboutOpen(false);
+
+  // Selecting season <select>
+  const [selectedSeason, setSelectedSeason] = useState('2023'); //change
+  const handleSeasonChange = (e) => {
+    console.log("Selected season:", e.target.value)
+    setSelectedSeason(e.target.value);
+  }
 
 
   return (
+    // first div just check if season displays output 
     <div>
-      {/* if loading/error is true, execute the following  */}
-      {loading && <p>Loading seasons...</p>}
-      {error && <p>Error fetching data</p>}
-      {seasons.length > 0 && (
-        <ul>
-          {seasons.map((season, indx) => (
-            <li key={indx}>{season.year}</li>
-          ))}
-        </ul>
-      )}
+      <Header 
+        selectedSeason={selectedSeason}
+        onSeasonChange={handleSeasonChange}
+        seasons={seasons}
+        modalAboutOpen={modalAboutOpen}
+        openAboutModal={openAboutModal}
+        closeAboutModal={closeAboutModal}/>
     </div>
+    
+    
   )
 }
 
