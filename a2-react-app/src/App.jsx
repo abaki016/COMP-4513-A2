@@ -4,7 +4,7 @@ import { createClient} from '@supabase/supabase-js';
 const supaUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const supabase = createClient(supaUrl, supabaseAnonKey);
-
+//why u no work?
 
 function App() {
   const [seasons, setSeasons] = useState([]);
