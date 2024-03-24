@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { createClient} from '@supabase/supabase-js';
-import Header from './components/Header.jsx';
+import Header from './components/Header';
 
 const supaUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -16,7 +16,7 @@ function App() {
         const { data, error} = await supabase.from('seasons').select('*');
         console.log('before filling setSeasons:', data);
         setSeasons(data);
-        console.log('after setSeasons(data)', seasons);
+        console.log('setSeasons data: ',seasons);
       } catch (err) {
         console.error('Error fetching seasons', err);
       }
