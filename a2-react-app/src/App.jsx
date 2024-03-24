@@ -1,34 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import { createClient} from '@supabase/supabase-js';
+
+const supaUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabase = createClient(supaUrl, supabaseAnonKey);
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [seasons, setSeasons] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() =>{
+    const fetchSeasons = async () => {
+      console.log('Fetching season rom Supabase...')
+      try{
+        const { data, error} = await supabase.from('seasons').select('*');
+        console.log('before filling setSeasons:', data);
+        setSeasons(data);
+        console.log('after setSeasons(data)', seasons);
+      } catch (err) {
+        console.error('Error fetching seasons', err);
+      }
+    }
+    fetchSeasons();
+  }, [])
+
+
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      {/* if loading/error is true, execute the following  */}
+      {loading && <p>Loading seasons...</p>}
+      {error && <p>Error fetching data</p>}
+      {seasons.length > 0 && (
+        <ul>
+          {seasons.map((season, indx) => (
+            <li key={indx}>{season.year}</li>
+          ))}
+        </ul>
+      )}
+    </div>
   )
 }
 
