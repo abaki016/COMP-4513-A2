@@ -1,59 +1,76 @@
 import { useState, useEffect } from 'react';
-import { createClient} from '@supabase/supabase-js';
-import Header from './components/Header';
+import { createClient } from '@supabase/supabase-js';
+import Header from './components/Header.jsx';
+import DisplayRaces from './components/DisplayRaces.jsx';
 
-const supaUrl = import.meta.env.VITE_SUPABASE_URL;
+// Initialize Supabase client
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const supabase = createClient(supaUrl, supabaseAnonKey);
-
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 function App() {
+    // useState for selecting season
+    const [selectedSeason, setSelectedSeason] = useState(null);
+    const [seasons, setSeasons] = useState([]); // State for the list of seasons
+    const [racesForSeason, setRacesForSeason] = useState([]); // State for races of the selected season
+    const [modalAboutOpen, setModalAboutOpen] = useState(false); // Modal state
 
-  useEffect(() =>{
-    const fetchSeasons = async () => {
-      console.log('Fetching season rom Supabase...')
-      try{
-        const { data, error} = await supabase.from('seasons').select('*');
-        console.log('before filling setSeasons:', data);
-        setSeasons(data);
-        console.log('setSeasons data: ',seasons);
-      } catch (err) {
-        console.error('Error fetching seasons', err);
-      }
-    }
-    fetchSeasons();
-  }, [])
+    // Fetch seasons on component mount
+    useEffect(() => {
+        const fetchSeasons = async () => {
+            console.log('Fetching seasons from Supabase...');
+            try {
+                const { data, error } = await supabase.from('seasons').select('*');
+                if (error) throw error;
+                setSeasons(data);
+            } catch (err) {
+                console.error('Error fetching seasons:', err);
+            }
+        };
+        fetchSeasons();
+    }, []);
 
-  // Seasons
-  const [seasons, setSeasons] = useState([]); 
+    // Fetch races when selectedSeason changes
+    useEffect(() => {
+        const fetchRaces = async () => {
+            try {
+                const { data, error } = await supabase
+                .from('races')
+                .select('*, seasons!inner(year)')
+                .eq('seasons.year', selectedSeason)
+                console.log('data only', data)
+                setRacesForSeason(data);
+                console.log('within setRacesForSeason array', setRacesForSeason)
+            } catch (err) {
+                console.error('Error fetching races:', err);
+            }
+        };
+        if (selectedSeason) {
+            fetchRaces();
+        }
+    }, [selectedSeason]);
 
-  // About modal
-  const [modalAboutOpen, setModalAboutOpen] = useState(false);
-  const openAboutModal = () => setModalAboutOpen(true);
-  const closeAboutModal = () => setModalAboutOpen(false);
+    // Handlers for modal and season change
+    const openAboutModal = () => setModalAboutOpen(true);
+    const closeAboutModal = () => setModalAboutOpen(false);
+    const handleSeasonChange = (e) => {
+        console.log("Selected season:", e.target.value);
+        setSelectedSeason(e.target.value);
+    };
 
-  // Selecting season <select>
-  const [selectedSeason, setSelectedSeason] = useState('2023'); //change
-  const handleSeasonChange = (e) => {
-    console.log("Selected season:", e.target.value)
-    setSelectedSeason(e.target.value);
-  }
-
-
-  return (
-    // first div just check if season displays output 
-    <div>
-      <Header 
-        selectedSeason={selectedSeason}
-        onSeasonChange={handleSeasonChange}
-        seasons={seasons}
-        modalAboutOpen={modalAboutOpen}
-        openAboutModal={openAboutModal}
-        closeAboutModal={closeAboutModal}/>
-    </div>
-    
-    
-  )
+    return (
+        <div>
+            <Header
+                selectedSeason={selectedSeason}
+                onSeasonChange={handleSeasonChange}
+                seasons={seasons}
+                modalAboutOpen={modalAboutOpen}
+                openAboutModal={openAboutModal}
+                closeAboutModal={closeAboutModal}
+            />
+            <DisplayRaces seasonRaces={racesForSeason} />
+        </div>
+    );
 }
 
-export default App
+export default App;

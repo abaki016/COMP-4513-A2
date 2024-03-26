@@ -6,7 +6,6 @@ const AboutModal = (props) => {
 
     return (
         <div>
-            {/* click the "X" to close modal */}
             <span onClick={props.close}>❌</span> 
             <h1>About This Project</h1>
             <h3>Name:</h3>
