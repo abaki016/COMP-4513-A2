@@ -1,22 +1,24 @@
+import { Link } from 'react-router-dom';
+
 const DisplayRaces = (props) => {
 
+    
     return(
         <div>
+            
             <div>
-                <br></br>
-                <br></br>
-
-            </div>
-            <div>
-                <h3>Round = - = - = Circuit</h3>
+                {/* render only if season is selected */}
+                {props.selectedSeason && <h2>{props.selectedSeason} Races</h2>} 
+                <h3>Round - Circuit</h3>
             </div>
             {props.seasonRaces.map((race, indx) => (
-                <div>
-                    <div key={indx}>
+                <div key={indx}>
+                    <div >
                         {race.round}    {race.name}     
                     </div>
-                    <button>Results</button>
-                    <button>Standings</button>
+                    
+                    <Link to={`/results/${race.raceId}`}><button>Results</button></Link>
+                    <Link to="/standings"><button>Standings</button></Link>
                 </div>
             ))}
         </div>

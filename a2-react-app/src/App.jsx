@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
+
+import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import DisplayRaces from './components/DisplayRaces.jsx';
+import ResultsComponent from './components/ResultsComponent.jsx';
+import StandingsComponent from './components/StandingsComponent.jsx'
+import { supabase } from './supabaseClient.js';
 
-// Initialize Supabase client
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 function App() {
     // useState for selecting season
-    const [selectedSeason, setSelectedSeason] = useState(null);
+    const [selectedSeason, setSelectedSeason] = useState('');
     const [seasons, setSeasons] = useState([]); // State for the list of seasons
     const [racesForSeason, setRacesForSeason] = useState([]); // State for races of the selected season
     const [modalAboutOpen, setModalAboutOpen] = useState(false); // Modal state
@@ -68,9 +68,17 @@ function App() {
                 openAboutModal={openAboutModal}
                 closeAboutModal={closeAboutModal}
             />
-            <DisplayRaces seasonRaces={racesForSeason} />
+            
+            <Routes>
+              {/* if we selected Season then display races */}
+              <Route path="/" element={selectedSeason ? <DisplayRaces seasonRaces={racesForSeason} selectedSeason={selectedSeason}/>: <div><h2>Select season year 😁</h2></div>}/> 
+              <Route path={"/results/:raceId"} element={<ResultsComponent />}/>
+              <Route path="/standings" element={<StandingsComponent />} />
+            </Routes>
         </div>
     );
 }
 
 export default App;
+
+
