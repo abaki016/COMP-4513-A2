@@ -200,8 +200,16 @@ const ResultsComponent = ({ selectedSeason }) => {
             .sort((a, b) => parseInt(a.position) - parseInt(b.position))
             .map((result) => (
               <div key={result.position}>
-                {`${result.drivers.forename} ${result.drivers.surname}`} -{" "}
-                {getPosition(result.position)}
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    showDriverDetails(result.drivers);
+                  }}
+                >
+                  {`${result.drivers.forename} ${result.drivers.surname}`} -{" "}
+                  {getPosition(result.position)}
+                </a>
               </div>
             ))}
         </div>
@@ -220,8 +228,26 @@ const ResultsComponent = ({ selectedSeason }) => {
             {raceResults.map((result, index) => (
               <tr key={index}>
                 <td>{result.position}</td>
-                <td>{`${result.drivers.forename} ${result.drivers.surname}`}</td>
-                <td>{result.constructors.name}</td>
+                <td>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      showDriverDetails(result.drivers);
+                    }}
+                  >{`${result.drivers.forename} ${result.drivers.surname}`}</a>
+                </td>
+                <td>
+                  <a
+                    href=""
+                    onClick={(e) => {
+                      e.preventDefault();
+                      showConstructorDetails(result.constructors);
+                    }}
+                  >
+                    {result.constructors.name}
+                  </a>
+                </td>
                 <td>{result.laps}</td>
                 <td>{result.position}</td>
                 <td>{result.position}</td>
@@ -230,6 +256,7 @@ const ResultsComponent = ({ selectedSeason }) => {
           </tbody>
         </table>
         {/* Circuit, driver, constructor details */}
+        {/* if selectedCircuit, selectedDriver and selectedConstructor is selected then render the following component */}
         {selectedCircuit && (
           <CircuitDetailModal
             circuitDetail={selectedCircuit}
