@@ -121,7 +121,7 @@ const ResultsComponent = ({ selectedSeason }) => {
     if (raceId) {
       fetchRaceDetailsAndQualifying();
     }
-  }, [raceId, selectedSeason]);
+  }, [raceId]);
 
   return (
     <div>
