@@ -67,10 +67,6 @@ function App() {
     navigate("/");
   };
 
-  // const resetSeason = () => {
-  //   setRacesForSeason([]);
-  // };
-
   return (
     <div>
       <Header
