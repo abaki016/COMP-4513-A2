@@ -121,7 +121,7 @@ const ResultsComponent = ({ selectedSeason }) => {
     if (raceId) {
       fetchRaceDetailsAndQualifying();
     }
-  }, [raceId, selectedSeason]);
+  }, [raceId]);
 
   return (
     <div>
@@ -195,6 +195,7 @@ const ResultsComponent = ({ selectedSeason }) => {
       <div>
         <div>
           <h1>Race Details</h1>
+          {/* Top three drivers */}
           {topThree
             .filter((result) => result.position >= 1 && result.position <= 3)
             .sort((a, b) => parseInt(a.position) - parseInt(b.position))
@@ -213,7 +214,6 @@ const ResultsComponent = ({ selectedSeason }) => {
               </div>
             ))}
         </div>
-        <div>{/* top three podium here  */}</div>
         <table>
           <thead>
             <tr>

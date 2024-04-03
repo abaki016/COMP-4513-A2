@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { Routes, Route } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import DisplayRaces from "./components/DisplayRaces.jsx";
 import ResultsComponent from "./components/ResultsComponent.jsx";
@@ -8,6 +9,8 @@ import StandingsComponent from "./components/StandingsComponent.jsx";
 import { supabase } from "./supabaseClient.js";
 
 function App() {
+  const navigate = useNavigate();
+
   // useState for selecting season
   const [selectedSeason, setSelectedSeason] = useState("");
   const [seasons, setSeasons] = useState([]); // State for the list of seasons
@@ -61,12 +64,7 @@ function App() {
     const newSelectedSeason = e.target.value;
     console.log("New selected season:", newSelectedSeason); // Check the selected value
     setSelectedSeason(newSelectedSeason); // Update the selected season
-    // Reset races when a new season is selected
-    setRacesForSeason([]);
-  };
-
-  const resetSeason = () => {
-    setRacesForSeason([]);
+    navigate("/");
   };
 
   return (
