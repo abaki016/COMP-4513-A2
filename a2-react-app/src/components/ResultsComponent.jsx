@@ -1,41 +1,34 @@
 // ResultsComponent.jsx
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient.js";
 import CircuitDetailModal from "./CircuitDetailModal.jsx";
 import DriverDetailModal from "./DriverDetailModal.jsx";
 import ConstructorDetailModal from "./ConstructorDetailModal.jsx";
 
-const ResultsComponent = ({ selectedSeason }) => {
+const ResultsComponent = (props) => {
   const { raceId } = useParams();
   const [raceDetails, setRaceDetails] = useState("");
   const [qualifyingResults, setQualifyingResults] = useState([]);
   const [raceResults, setRaceResults] = useState([]);
   const [topThree, setTopThree] = useState([]);
   // ===================================
-  // Use states for selecting links of circuit, driver, constructor
+  // Use states for selecting links of circuit
   const [selectedCircuit, setSelectedCircuit] = useState(null);
-  const [selectedDriver, setSelectedDriver] = useState(null);
-  const [selectedConstructor, setSelectedConstructor] = useState(null);
+  
 
   const showCircuitDetails = (circuit) => {
     // set the selected circuit for the modal
     setSelectedCircuit(circuit);
   };
 
-  const showDriverDetails = (driver) => {
-    setSelectedDriver(driver);
-  };
-
-  const showConstructorDetails = (constructor) => {
-    setSelectedConstructor(constructor);
-  };
+ 
 
   // ===================================
   const closeModal = () => {
     setSelectedCircuit(null);
-    setSelectedDriver(null);
-    setSelectedConstructor(null);
+    // setSelectedDriver(null);
+    // setSelectedConstructor(null);
   };
 
   // Get position suffix for top three
@@ -166,7 +159,7 @@ const ResultsComponent = ({ selectedSeason }) => {
                     href="#"
                     onClick={(e) => {
                       e.preventDefault();
-                      showDriverDetails(result.drivers);
+                      props.showDriverDetails(result.drivers)
                     }}
                   >{`${result.drivers.forename} ${result.drivers.surname}`}</a>
                 </td>
@@ -176,7 +169,7 @@ const ResultsComponent = ({ selectedSeason }) => {
                     href="#"
                     onClick={(e) => {
                       e.preventDefault();
-                      showConstructorDetails(result.constructors);
+                      props.showConstructorDetails(result.constructors);
                     }}
                   >
                     {result.constructors.name}
@@ -233,7 +226,7 @@ const ResultsComponent = ({ selectedSeason }) => {
                     href="#"
                     onClick={(e) => {
                       e.preventDefault();
-                      showDriverDetails(result.drivers);
+                      props.showDriverDetails(result.drivers);
                     }}
                   >{`${result.drivers.forename} ${result.drivers.surname}`}</a>
                 </td>
@@ -242,7 +235,7 @@ const ResultsComponent = ({ selectedSeason }) => {
                     href=""
                     onClick={(e) => {
                       e.preventDefault();
-                      showConstructorDetails(result.constructors);
+                      props.showConstructorDetails(result.constructors);
                     }}
                   >
                     {result.constructors.name}
@@ -255,26 +248,14 @@ const ResultsComponent = ({ selectedSeason }) => {
             ))}
           </tbody>
         </table>
-        {/* Circuit, driver, constructor details */}
-        {/* if selectedCircuit, selectedDriver and selectedConstructor is selected then render the following component */}
+        {/* if selectedCircuit is selected then render the following component */}
         {selectedCircuit && (
           <CircuitDetailModal
             circuitDetail={selectedCircuit}
             onClose={closeModal}
           />
         )}
-        {selectedDriver && (
-          <DriverDetailModal
-            driverDetail={selectedDriver}
-            onClose={closeModal}
-          />
-        )}
-        {selectedConstructor && (
-          <ConstructorDetailModal
-            constructorDetail={selectedConstructor}
-            onClose={closeModal}
-          />
-        )}
+
       </div>
     </div>
   );

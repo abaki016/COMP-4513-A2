@@ -7,6 +7,8 @@ import DisplayRaces from "./components/DisplayRaces.jsx";
 import ResultsComponent from "./components/ResultsComponent.jsx";
 import StandingsComponent from "./components/StandingsComponent.jsx";
 import { supabase } from "./supabaseClient.js";
+import DriverDetailModal from "./components/DriverDetailModal.jsx";
+import ConstructorDetailModal from "./components/ConstructorDetailModal.jsx";
 
 function App() {
   const navigate = useNavigate();
@@ -16,6 +18,25 @@ function App() {
   const [seasons, setSeasons] = useState([]); // State for the list of seasons
   const [racesForSeason, setRacesForSeason] = useState([]); // State for races of the selected season
   const [modalAboutOpen, setModalAboutOpen] = useState(false); // Modal state
+
+  // Use state for selected driver, constructor
+  const [selectedDriver, setSelectedDriver] = useState(null);
+  const [selectedConstructor, setSelectedConstructor] = useState(null);
+
+
+  const showDriverDetails = (driver) => {
+    setSelectedDriver(driver);
+  };
+
+  const showConstructorDetails = (constructor) => {
+    setSelectedConstructor(constructor)
+  }
+
+  const closeModal = () => {
+    setSelectedDriver(null);
+    setSelectedConstructor(null);
+  }
+
 
   // Fetch seasons on component mount
   useEffect(() => {
@@ -96,11 +117,20 @@ function App() {
           }
         />
         <Route
-          path={"/results/:raceId"}
-          element={<ResultsComponent selectedSeason={selectedSeason} />}
+          path={"/race-results/:raceId"}
+          element={<ResultsComponent showDriverDetails={showDriverDetails} 
+          showConstructorDetails={showConstructorDetails} selectedDriver={selectedDriver} 
+          selectedConstructor={selectedConstructor}/>}
         />
-        <Route path="/standings" element={<StandingsComponent />} />
-      </Routes>
+        <Route path={"/race-standings/:raceId"} 
+          element={<StandingsComponent showDriverDetails={showDriverDetails} 
+          showConstructorDetails={showConstructorDetails} selectedDriver={selectedDriver} 
+          selectedConstructor={selectedConstructor}/>} />
+        </Routes>
+
+      {/* Modals for clickable links (driver, constructor) */}
+      {selectedDriver && (<DriverDetailModal driverDetail={selectedDriver} onClose={closeModal}/>)}
+      {selectedConstructor && (<ConstructorDetailModal constructorDetail={selectedConstructor} onClose={closeModal} />)}
     </div>
   );
 }
