@@ -13,7 +13,7 @@ const Header = (props) => {
   return (
     <header>
       <div>
-        <h1>F1 Dashboard Project</h1>
+            <h1>F1 Dashboard Project</h1>
       </div>
       <div>
         <label>Season:</label>
