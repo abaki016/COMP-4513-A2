@@ -67,6 +67,7 @@ const ResultsComponent = (props) => {
         .eq("raceId", raceId)
         .order("position", { ascending: true });
 
+      
       // Fetch Results detail
       const { data: resultsData, error: resultsError } = await supabase
         .from("results")
@@ -76,7 +77,8 @@ const ResultsComponent = (props) => {
         .eq("raceId", raceId)
         .order("position", { ascending: true });
 
-      // Error handling
+      //==============================================
+      // Error handling and updating useStates for raceDetails, qualifyingResults, raceResults
       if (raceError) {
         console.error("Error fetching race details", raceError);
       } else {
@@ -198,7 +200,7 @@ const ResultsComponent = (props) => {
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
-                    showDriverDetails(result.drivers);
+                    props.showDriverDetails(result.drivers);
                   }}
                 >
                   {`${result.drivers.forename} ${result.drivers.surname}`} -{" "}

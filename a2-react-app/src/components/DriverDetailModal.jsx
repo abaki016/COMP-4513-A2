@@ -3,7 +3,9 @@ const DriverDetailModal = (props) => {
     return null;
   }
 
-  const onAddToFavorites = () => {};
+  const onAddToFavorites = () => {
+    props.addDriverToFavorites(props.driverDetail);
+  };
 
   return (
     <div>
@@ -28,7 +30,7 @@ const DriverDetailModal = (props) => {
 
         <div>
           <button onClick={props.onClose}>Close</button>
-          <button onClick={() => onAddToFavorities(props.driverDetail)}>
+          <button onClick={() => onAddToFavorites(props.driverDetail)}>
             Add Favorites
           </button>
         </div>

@@ -18,7 +18,7 @@ const Header = (props) => {
         </select>
       </div>
       <div>
-        <button>Favorites</button>
+        <button onClick={props.toggleFavoritesModal}>Favorites</button>
         <button onClick={props.openAboutModal}>About</button>
       </div>
       <AboutModal open={props.modalAboutOpen} close={props.closeAboutModal} />
