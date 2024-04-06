@@ -15,10 +15,10 @@ const DisplayRaces = (props) => {
               {race.round} {race.name}
             </div>
 
-            <Link to={`/results/${race.raceId}`}>
+            <Link to={`/race-results/${race.raceId}`}>
               <button>Results</button>
             </Link>
-            <Link to="/standings">
+            <Link to={`/race-standings/${race.raceId}`}>
               <button>Standings</button>
             </Link>
           </div>

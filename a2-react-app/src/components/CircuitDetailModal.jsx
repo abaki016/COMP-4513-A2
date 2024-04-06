@@ -4,7 +4,7 @@ const CircuitDetailModal = (props) => {
   }
 
   const onAddToFavorites = () => {
-    //we add to favorites soon
+    props.addCircuitToFavorites(props.circuitDetail)
   };
 
   return (

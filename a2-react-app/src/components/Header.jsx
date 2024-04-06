@@ -2,6 +2,14 @@ import AboutModal from "./AboutModal.jsx";
 import { Link } from "react-router-dom";
 
 const Header = (props) => {
+
+  //if empty returns true
+  const areFavoritesEmpty = 
+    props.favoriteDrivers.length == 0 && 
+    props.favoriteConstructors.length == 0 && 
+    props.favoriteCircuits.length == 0;
+  
+
   return (
     <header>
       <div>
@@ -18,7 +26,7 @@ const Header = (props) => {
         </select>
       </div>
       <div>
-        <button>Favorites</button>
+        <button onClick={props.toggleFavoritesModal} disabled={areFavoritesEmpty}>Favorites</button>
         <button onClick={props.openAboutModal}>About</button>
       </div>
       <AboutModal open={props.modalAboutOpen} close={props.closeAboutModal} />
