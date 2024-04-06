@@ -10,6 +10,7 @@ import StandingsComponent from "./components/StandingsComponent.jsx";
 import DriverDetailModal from "./components/DriverDetailModal.jsx";
 import ConstructorDetailModal from "./components/ConstructorDetailModal.jsx";
 import FavoritesModal from "./components/FavoritesModal.jsx";
+import CircuitDetailModal from "./components/CircuitDetailModal.jsx";
 
 function App() {
   const navigate = useNavigate();
@@ -23,10 +24,34 @@ function App() {
   const addDriverToFavorites = (driver) => {
     setFavoriteDrivers(prevFavorites => {
       // Prevent duplication
-      const isAlreadyFavorite = prevFavorites.some(favDriver => favDriver.driverId === driver.driverId);
+      const isAlreadyFavoriteDriver = prevFavorites.some(favDriver => favDriver.driverId === driver.driverId);
 
-      if(!isAlreadyFavorite) {
+      if(!isAlreadyFavoriteDriver) {
         return [...prevFavorites, driver];
+      } else {
+        return prevFavorites;
+      }
+    })
+  }
+
+  const addConstructorToFavorites = (constructor) => {
+    setFavoriteConstructors(prevFavorites => {
+      const isAlreadyFavoriteConstructor = prevFavorites.some(favConstructor => favConstructor.constructorId === constructor.constructorId);
+
+      if(!isAlreadyFavoriteConstructor) {
+        return [...prevFavorites, constructor];
+      } else {
+        return prevFavorites;
+      }
+    })
+  }
+
+  const addCircuitToFavorites = (circuit) => {
+    setFavoriteCircuits(prevFavorites => {
+      const isAlreadyFavoriteCircuit = prevFavorites.some(favCircuit => favCircuit.circuitId === circuit.circuitId);
+
+      if(!isAlreadyFavoriteCircuit) {
+        return [...prevFavorites, circuit];
       } else {
         return prevFavorites;
       }
@@ -52,6 +77,7 @@ function App() {
   // Use state for selected driver, constructor (modals)
   const [selectedDriver, setSelectedDriver] = useState(null);
   const [selectedConstructor, setSelectedConstructor] = useState(null);
+  const [selectedCircuit, setSelectedCircuit] = useState(null)
 
 
   const showDriverDetails = (driver) => {
@@ -60,9 +86,15 @@ function App() {
   const showConstructorDetails = (constructor) => {
     setSelectedConstructor(constructor)
   }
+
+  const showCircuitDetails = (circuit) => {
+    setSelectedCircuit(circuit);
+  }
+
   const closeModal = () => {
     setSelectedDriver(null);
     setSelectedConstructor(null);
+    setSelectedCircuit(null);
   }
 
   //=========================================
@@ -127,6 +159,9 @@ function App() {
         openAboutModal={openAboutModal}
         closeAboutModal={closeAboutModal}
         toggleFavoritesModal={toggleFavoritesModal}
+        favoriteDrivers={favoriteDrivers}
+        favoriteConstructors={favoriteConstructors}
+        favoriteCircuits={favoriteCircuits}
       />
 
       <Routes key={selectedSeason}>
@@ -148,22 +183,41 @@ function App() {
         />
         <Route
           path={"/race-results/:raceId"}
-          element={<ResultsComponent showDriverDetails={showDriverDetails} 
-          showConstructorDetails={showConstructorDetails} selectedDriver={selectedDriver} 
-          selectedConstructor={selectedConstructor}/>}
+          element={<ResultsComponent 
+              showDriverDetails={showDriverDetails} 
+              showConstructorDetails={showConstructorDetails}
+              showCircuitDetails={showCircuitDetails}
+              selectedDriver={selectedDriver} 
+              selectedConstructor={selectedConstructor}
+          />}
         />
         <Route path={"/race-standings/:raceId"} 
-          element={<StandingsComponent showDriverDetails={showDriverDetails} 
-          showConstructorDetails={showConstructorDetails} selectedDriver={selectedDriver} 
-          selectedConstructor={selectedConstructor}/>} />
+          element={<StandingsComponent 
+              showDriverDetails={showDriverDetails} 
+              showConstructorDetails={showConstructorDetails} 
+              showCircuitDetails={showCircuitDetails}
+              selectedDriver={selectedDriver} 
+              selectedConstructor={selectedConstructor}
+          />} 
+        />
         </Routes>
 
       {/* Modals for clickable links (driver, constructor) */}
       {selectedDriver && (<DriverDetailModal driverDetail={selectedDriver} addDriverToFavorites={addDriverToFavorites} onClose={closeModal}/>)}
-      {selectedConstructor && (<ConstructorDetailModal constructorDetail={selectedConstructor} onClose={closeModal} />)}
+      {selectedConstructor && (<ConstructorDetailModal constructorDetail={selectedConstructor} addConstructorToFavorites={addConstructorToFavorites} onClose={closeModal} />)}
+      {selectedCircuit && (<CircuitDetailModal circuitDetail={selectedCircuit} addCircuitToFavorites={addCircuitToFavorites} onClose={closeModal}/>)}
 
       {/* Modal for favorites (driver, circuit, contructors) */}
-      {isFavoritesModalOpen && (<FavoritesModal favoriteDrivers={favoriteDrivers} emptyFavorites={emptyFavorites} onClose={() => setFavoritesModalOpen(false)}/>)}
+      {isFavoritesModalOpen 
+        && (<FavoritesModal 
+              favoriteDrivers={favoriteDrivers}
+              favoriteConstructors={favoriteConstructors}
+              favoriteCircuits={favoriteCircuits}
+              emptyFavorites={emptyFavorites} 
+              onClose={() => setFavoritesModalOpen(false)}
+            />
+          )}
+      
     </div>
   );
 }

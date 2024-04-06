@@ -130,7 +130,7 @@ const ResultsComponent = (props) => {
               href="#"
               onClick={(e) => {
                 e.preventDefault();
-                showCircuitDetails(raceDetails.circuits);
+                props.showCircuitDetails(raceDetails.circuits);
               }}
             >
               {raceDetails.circuits.name}

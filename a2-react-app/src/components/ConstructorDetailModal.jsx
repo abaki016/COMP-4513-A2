@@ -3,8 +3,8 @@ const ConstructorDetailModal = (props) => {
     return null;
   }
 
-  const onAddToFavorites = (constructorDetail) => {
-    console.log("Adding to favorites", constructorDetail);
+  const onAddToFavorites = () => {
+    props.addConstructorToFavorites(props.constructorDetail)
   };
   return (
     <div>

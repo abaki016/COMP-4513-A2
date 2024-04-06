@@ -12,6 +12,18 @@ const FavoritesModal = (props) => {
                         ))}
                     </ul>
                 </div>
+
+                <div>
+                        {props.favoriteConstructors.map((constructor, indx) => (
+                            <li key={indx}>{constructor.name}</li>
+                        ))}
+                </div>
+
+                <div>
+                        {props.favoriteCircuits.map((circuit, indx) => {
+                            <li key={indx}>{circuit.name}</li>
+                        })}
+                </div>
             </div>
             <button onClick={props.emptyFavorites}>Empty Favorites</button>
             <button onClick={props.onClose}>Close</button>
