@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "./supabaseClient.js";
 import Header from "./components/Header.jsx";
-import Login from "./components/Login.jsx";
 import DisplayRaces from "./components/DisplayRaces.jsx";
 import ResultsComponent from "./components/ResultsComponent.jsx";
 import StandingsComponent from "./components/StandingsComponent.jsx";
@@ -16,27 +15,11 @@ import CircuitDetailModal from "./components/CircuitDetailModal.jsx";
 function App() {
   const navigate = useNavigate();
 
-  // login
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   // favorites 
   const [favoriteDrivers, setFavoriteDrivers] = useState([]);
   const [favoriteConstructors, setFavoriteConstructors] = useState([]);
   const [favoriteCircuits, setFavoriteCircuits] = useState([]);
   const [isFavoritesModalOpen, setFavoritesModalOpen] = useState(false);
-
-  const handleLogin = () => {
-    // Simulate successful login
-    console.log("Simulating successful login...");
-    // Set isLoggedIn to true
-    setIsLoggedIn(true);
-    // Navigate to Home view
-    navigate("/home");
-  };
-
-  function Home() {
-    return <h1>Welcome Home!</h1>;
-  }
 
   const addDriverToFavorites = (driver) => {
     setFavoriteDrivers(prevFavorites => {
@@ -180,14 +163,9 @@ function App() {
         favoriteConstructors={favoriteConstructors}
         favoriteCircuits={favoriteCircuits}
       />
-      
+
       <Routes key={selectedSeason}>
         {/* if we selected Season then display races */}
-        <Route path="/" element={<Login onLogin={handleLogin} />} />
-        <Route
-          path="/home"
-          element={isLoggedIn ? <Home /> : <Navigate to="/" replace />}
-        />
         <Route
           path="/"
           element={
