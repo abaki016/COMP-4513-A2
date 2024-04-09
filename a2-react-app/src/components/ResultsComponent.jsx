@@ -6,21 +6,24 @@ import CircuitDetailModal from "./CircuitDetailModal.jsx";
 import DriverDetailModal from "./DriverDetailModal.jsx";
 import ConstructorDetailModal from "./ConstructorDetailModal.jsx";
 
+
 const ResultsComponent = (props) => {
   const { raceId } = useParams();
   const [raceDetails, setRaceDetails] = useState("");
   const [qualifyingResults, setQualifyingResults] = useState([]);
   const [raceResults, setRaceResults] = useState([]);
   const [topThree, setTopThree] = useState([]);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   // ===================================
   // Use states for selecting links of circuit
   const [selectedCircuit, setSelectedCircuit] = useState(null);
+
 
   const showCircuitDetails = (circuit) => {
     // set the selected circuit for the modal
     setSelectedCircuit(circuit);
   };
+
 
   // ===================================
   const closeModal = () => {
@@ -29,13 +32,16 @@ const ResultsComponent = (props) => {
     // setSelectedConstructor(null);
   };
 
+
   const modalResult = () => {
     setIsModalOpen(true);
   };
 
+
   const closeModalResult = () => {
     setIsModalOpen(false);
   };
+
 
   // Get position suffix for top three
   const getPosition = (position) => {
@@ -51,8 +57,10 @@ const ResultsComponent = (props) => {
     }
   };
 
+
   useEffect(() => {
     console.log("raceId from useParams:", raceId);
+
 
     const fetchRaceDetailsAndQualifying = async () => {
       if (!raceId) {
@@ -68,6 +76,7 @@ const ResultsComponent = (props) => {
         .eq("raceId", raceId)
         .single();
 
+
       // Fetch Qualifying results
       const { data: qualifyingData, error: qualifyingError } = await supabase
         .from("qualifying")
@@ -76,6 +85,7 @@ const ResultsComponent = (props) => {
         )
         .eq("raceId", raceId)
         .order("position", { ascending: true });
+
 
       // Fetch Results detail
       const { data: resultsData, error: resultsError } = await supabase
@@ -86,6 +96,7 @@ const ResultsComponent = (props) => {
         .eq("raceId", raceId)
         .order("position", { ascending: true });
 
+
       //==============================================
       // Error handling and updating useStates for raceDetails, qualifyingResults, raceResults
       if (raceError) {
@@ -95,12 +106,14 @@ const ResultsComponent = (props) => {
         setRaceDetails(raceData);
       }
 
+
       if (qualifyingError) {
         console.error("Error fetchign qualifying results", qualifyingError);
       } else {
         console.log("Qualifying results:", qualifyingData);
         setQualifyingResults(qualifyingData);
       }
+
 
       if (resultsError) {
         console.error("Error fetching race details", resultsError);
@@ -110,7 +123,9 @@ const ResultsComponent = (props) => {
           return parseInt(a.position) - parseInt(b.position);
         });
 
+
         setRaceResults(sortResultsData);
+
 
         const filteredResults = sortResultsData.filter(
           (result) => result.position >= 1 && result.position <= 3
@@ -122,10 +137,12 @@ const ResultsComponent = (props) => {
       }
     };
 
+
     if (raceId) {
       fetchRaceDetailsAndQualifying();
     }
   }, [raceId]);
+
 
   return (
     <div className="flex flex-col">
@@ -191,6 +208,7 @@ const ResultsComponent = (props) => {
             <tr key={indx}>
               <td className="text-center  py-3">{result.position}</td>
 
+
               <td className="text-center hover:bg-gray-200 hover:underline">
                 <a
                   href="#"
@@ -200,6 +218,7 @@ const ResultsComponent = (props) => {
                   }}
                 >{`${result.drivers.forename} ${result.drivers.surname}`}</a>
               </td>
+
 
               <td className="text-center hover:bg-gray-200 hover:underline">
                 <a
@@ -228,18 +247,20 @@ const ResultsComponent = (props) => {
         Show Race Results
       </button>
 
-      {props.isModalOpen && (
+
+      {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
           <div className="container mx-auto p-5 border w-3/4 shadow-lg rounded-md bg-white">
             {/* Modal content */}
             <div className="text-right">
               <button
-                onClick={props.closeModal}
+                onClick={closeModalResult}
                 className="text-lg p-2 hover:bg-gray-200 rounded"
               >
                 &times; Close
               </button>
             </div>
+
 
             <div>
               <h1 className="text-2xl font-bold text-center my-4">
@@ -275,6 +296,7 @@ const ResultsComponent = (props) => {
               </div>
             </div>
             {/* <h2 className="text-xl font-bold text-center mb-4">Race Results</h2> */}
+
 
             {/* Results table */}
             <div className="overflow-x-auto">
@@ -327,6 +349,7 @@ const ResultsComponent = (props) => {
         </div>
       )}
 
+
       <div>
         {/* if selectedCircuit is selected then render the following component */}
         {selectedCircuit && (
@@ -340,4 +363,10 @@ const ResultsComponent = (props) => {
   );
 };
 
+
 export default ResultsComponent;
+
+
+
+
+

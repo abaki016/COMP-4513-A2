@@ -1,12 +1,22 @@
-import React, { useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+
+import { Routes, Route } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import Login from "./components/Login.jsx";
-import Home from "./Home.jsx"; // Import the Home component
+import { supabase } from "./supabaseClient.js";
+import Header from "./components/Header.jsx";
+import DisplayRaces from "./components/DisplayRaces.jsx";
+import ResultsComponent from "./components/ResultsComponent.jsx";
+import StandingsComponent from "./components/StandingsComponent.jsx";
+import DriverDetailModal from "./components/DriverDetailModal.jsx";
+import ConstructorDetailModal from "./components/ConstructorDetailModal.jsx";
+import FavoritesModal from "./components/FavoritesModal.jsx";
+import CircuitDetailModal from "./components/CircuitDetailModal.jsx";
+
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+
 
   // favorites
   const [favoriteDrivers, setFavoriteDrivers] = useState([]);
@@ -14,12 +24,14 @@ function App() {
   const [favoriteCircuits, setFavoriteCircuits] = useState([]);
   const [isFavoritesModalOpen, setFavoritesModalOpen] = useState(false);
 
+
   const addDriverToFavorites = (driver) => {
     setFavoriteDrivers((prevFavorites) => {
       // Prevent duplication
       const isAlreadyFavoriteDriver = prevFavorites.some(
         (favDriver) => favDriver.driverId === driver.driverId
       );
+
 
       if (!isAlreadyFavoriteDriver) {
         return [...prevFavorites, driver];
@@ -29,12 +41,14 @@ function App() {
     });
   };
 
+
   const addConstructorToFavorites = (constructor) => {
     setFavoriteConstructors((prevFavorites) => {
       const isAlreadyFavoriteConstructor = prevFavorites.some(
         (favConstructor) =>
           favConstructor.constructorId === constructor.constructorId
       );
+
 
       if (!isAlreadyFavoriteConstructor) {
         return [...prevFavorites, constructor];
@@ -44,11 +58,13 @@ function App() {
     });
   };
 
+
   const addCircuitToFavorites = (circuit) => {
     setFavoriteCircuits((prevFavorites) => {
       const isAlreadyFavoriteCircuit = prevFavorites.some(
         (favCircuit) => favCircuit.circuitId === circuit.circuitId
       );
+
 
       if (!isAlreadyFavoriteCircuit) {
         return [...prevFavorites, circuit];
@@ -58,15 +74,19 @@ function App() {
     });
   };
 
+
   const emptyFavorites = () => {
     setFavoriteDrivers([]);
   };
+
 
   const toggleFavoritesModal = () => {
     setFavoritesModalOpen((prev) => !prev);
   };
 
+
   //====================================
+
 
   // useState for selecting season
   const [selectedSeason, setSelectedSeason] = useState("");
@@ -74,10 +94,12 @@ function App() {
   const [racesForSeason, setRacesForSeason] = useState([]); // State for races of the selected season
   const [modalAboutOpen, setModalAboutOpen] = useState(false); // Modal state
 
+
   // Use state for selected driver, constructor (modals)
   const [selectedDriver, setSelectedDriver] = useState(null);
   const [selectedConstructor, setSelectedConstructor] = useState(null);
   const [selectedCircuit, setSelectedCircuit] = useState(null);
+
 
   const showDriverDetails = (driver) => {
     setSelectedDriver(driver);
@@ -86,9 +108,11 @@ function App() {
     setSelectedConstructor(constructor);
   };
 
+
   const showCircuitDetails = (circuit) => {
     setSelectedCircuit(circuit);
   };
+
 
   const closeModal = () => {
     setSelectedDriver(null);
@@ -96,14 +120,9 @@ function App() {
     setSelectedCircuit(null);
   };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const closeAllModals = () => {
-    closeModal();
-
-    setIsModalOpen(false);
-  };
   //=========================================
+
 
   // Fetch seasons on component mount
   useEffect(() => {
@@ -125,6 +144,7 @@ function App() {
     fetchSeasons();
   }, []);
 
+
   // Fetch races when selectedSeason changes
   useEffect(() => {
     const fetchRaces = async () => {
@@ -144,9 +164,11 @@ function App() {
     }
   }, [selectedSeason]);
 
+
   // Handlers for modal and season change
   const openAboutModal = () => setModalAboutOpen(true);
   const closeAboutModal = () => setModalAboutOpen(false);
+
 
   const handleSeasonChange = (e) => {
     const newSelectedSeason = e.target.value;
@@ -155,10 +177,40 @@ function App() {
     navigate("/");
   };
 
+
   return (
     <div>
-      <Routes>
-        <Route path="/" element={<Login onLogin={handleLogin} />} />
+      <Header
+        selectedSeason={selectedSeason}
+        onSeasonChange={handleSeasonChange}
+        seasons={seasons}
+        modalAboutOpen={modalAboutOpen}
+        openAboutModal={openAboutModal}
+        closeAboutModal={closeAboutModal}
+        toggleFavoritesModal={toggleFavoritesModal}
+        favoriteDrivers={favoriteDrivers}
+        favoriteConstructors={favoriteConstructors}
+        favoriteCircuits={favoriteCircuits}
+      />
+
+
+      <Routes key={selectedSeason}>
+        {/* if we selected Season then display races */}
+        <Route
+          path="/"
+          element={
+            selectedSeason ? (
+              <DisplayRaces
+                seasonRaces={racesForSeason}
+                selectedSeason={selectedSeason}
+              />
+            ) : (
+              <div>
+                <h2>Select season year 😁</h2>
+              </div>
+            )
+          }
+        />
         <Route
           path={"/race-results/:raceId"}
           element={
@@ -168,8 +220,6 @@ function App() {
               showCircuitDetails={showCircuitDetails}
               selectedDriver={selectedDriver}
               selectedConstructor={selectedConstructor}
-              isModalOpen={isModalOpen}
-              closeModal={closeAllModals}
             />
           }
         />
@@ -186,6 +236,7 @@ function App() {
           }
         />
       </Routes>
+
 
       {/* Modals for clickable links (driver, constructor) */}
       {selectedDriver && (
@@ -210,6 +261,7 @@ function App() {
         />
       )}
 
+
       {/* Modal for favorites (driver, circuit, contructors) */}
       {isFavoritesModalOpen && (
         <FavoritesModal
@@ -224,4 +276,10 @@ function App() {
   );
 }
 
+
 export default App;
+
+
+
+
+
