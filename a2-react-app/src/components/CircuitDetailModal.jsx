@@ -9,7 +9,7 @@ const CircuitDetailModal = (props) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 backdrop-filter backdrop-blur-sm">
-      <div className="container mx-auto p-5 border w-3/4 shadow-lg rounded-md bg-white">
+      <div className="container mx-auto p-5 border w-1/4 shadow-lg rounded-md bg-white">
         <div className="text-right">
           <button
             onClick={props.onClose}

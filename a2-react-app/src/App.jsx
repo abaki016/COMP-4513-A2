@@ -13,10 +13,17 @@ import DriverDetailModal from "./components/DriverDetailModal.jsx";
 import ConstructorDetailModal from "./components/ConstructorDetailModal.jsx";
 import FavoritesModal from "./components/FavoritesModal.jsx";
 import CircuitDetailModal from "./components/CircuitDetailModal.jsx";
+import BackgroundImage from "./components/BackGroundImg.jsx";
 
 
 function App() {
   const navigate = useNavigate();
+
+  const [noSelectedSeason, isNoSelectedSeason] = useState(true);
+
+  const toResult = () => {
+    isNoSelectedSeason(false);
+  }
 
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State for login status
   const [showLoginForm, setShowLoginForm] = useState(true); // State to control login form visibility
@@ -208,7 +215,9 @@ function App() {
         favoriteCircuits={favoriteCircuits}
       />
 
+       {!selectedSeason && isNoSelectedSeason && <BackgroundImage />}
 
+     
       <Routes key={selectedSeason}>
         {/* if we selected Season then display races */}
         <Route

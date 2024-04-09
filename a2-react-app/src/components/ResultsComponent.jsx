@@ -71,7 +71,7 @@ const ResultsComponent = (props) => {
       const { data: raceData, error: raceError } = await supabase
         .from("races")
         .select(
-          `name, round, date, circuits(name, location, country, url), year, date, url`
+          `name, round, date, circuits(name, location, country, url, lat, lng, alt), year, date, url`
         )
         .eq("raceId", raceId)
         .single();
@@ -271,7 +271,7 @@ const ResultsComponent = (props) => {
     
   
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 backdrop-filter backdrop-blur-sm">
           <div className="container mx-auto p-5 border w-3/4 shadow-lg rounded-md bg-white">
             {/* Modal content */}
             <div className="text-right">
