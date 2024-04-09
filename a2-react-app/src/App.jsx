@@ -204,11 +204,7 @@ function App() {
                 seasonRaces={racesForSeason}
                 selectedSeason={selectedSeason}
               />
-            ) : (
-              <div>
-                <h2>Select season year 😁</h2>
-              </div>
-            )
+            ) : (null)
           }
         />
         <Route

@@ -247,7 +247,15 @@ const ResultsComponent = (props) => {
         Show Race Results
       </button>
 
-
+      {props.selectedDriver && (
+      <DriverDetailModal
+        driverDetail={props.selectedDriver}
+        onClose={props.closeDriverModal}
+        // Add this if you have a function to handle adding to favorites
+        addDriverToFavorites={props.addDriverToFavorites}
+      />
+    )}
+  
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
           <div className="container mx-auto p-5 border w-3/4 shadow-lg rounded-md bg-white">
