@@ -11,7 +11,7 @@ const CircuitDetailModal = (props) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center w-full h-full overflow-y-auto bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center w-full h-full overflow-y-auto bg-black bg-opacity-50  backdrop-filter backdrop-blur-sm">
       <div className="container w-3/4 p-5 mx-auto bg-white border rounded-md shadow-lg">
         <div className="text-right">
           <button

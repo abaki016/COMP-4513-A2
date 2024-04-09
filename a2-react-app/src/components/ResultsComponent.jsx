@@ -126,7 +126,7 @@ const ResultsComponent = (props) => {
 
         setRaceResults(sortResultsData);
 
-
+        
         const filteredResults = sortResultsData.filter(
           (result) => result.position >= 1 && result.position <= 3
         );

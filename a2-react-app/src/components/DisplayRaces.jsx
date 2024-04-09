@@ -2,45 +2,46 @@ import { Link } from "react-router-dom";
 
 const DisplayRaces = (props) => {
   return (
-    <div className="relative min-h-screen bg-center bg-cover flex items-center justify-center" style={{ backgroundImage: `url('/sara-ruffoni-MjVdmqBCoXg-unsplash.jpg')` }}>
-    <section className="font-sans mx-auto w-1/2">
-      {props.selectedSeason && (
-        <h2 className="text-center text-5xl font-sans font-bold tracking-wide text-white mb-3">
-          {props.selectedSeason} Races
-        </h2>
-      )}
-      <div className="divide-y divide-gray-200 ">
-        <div className="bg-gray-300 flex justify-between px-6 py-3 text-left text-xs py-4 font-medium text-gray-500 uppercase tracking-wider bg-opacity-60">
-          <div className="text-white font-sans font-semibold">Round</div>
-          <div className="text-white font-sans font-semibold">Circuit</div>
-          <div className="text-white font-sans font-semibold">Actions</div>
-        </div>
-        <div className="bg-white bg-opacity-60">
-          {props.seasonRaces &&
-            props.seasonRaces.map((race, indx) => (
-              <div key={indx} className={`flex justify-between px-6 py-2 font-sans ${indx % 2 !== 0 ? 'bg-[#F8F8F8]' : ''}`}>
-                <div className="whitespace-nowrap">{race.round}</div>
-                <div className="whitespace-nowrap">{race.name}</div>
-                <div className="whitespace-nowrap">
+    <div className="relative min-h-screen bg-center bg-cover"
+         style={{ backgroundImage: `url('/sara-ruffoni-MjVdmqBCoXg-unsplash.jpg')` }}>
+      <section className="font-sans mx-auto w-full md:w-3/4 lg:w-1/2 pt-10">
+        {props.selectedSeason && (
+          <h2 className="text-center text-3xl md:text-4xl lg:text-5xl font-thin text-white mb-3">
+            {props.selectedSeason} Races
+          </h2>
+        )}
+        <table className="divide-y divide-gray-200 w-full bg-white bg-opacity-60 rounded-lg overflow-hidden">
+          <thead className="bg-opacity-60">
+            <tr>
+              <th className="text-white font-semibold text-lg px-6 py-4">Round</th>
+              <th className="text-white font-semibold text-lg px-6 py-4">Circuit</th>
+              <th className="text-white font-semibold text-lg px-6 py-4">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {props.seasonRaces && props.seasonRaces.map((race, index) => (
+             <tr key={index} className={`${index % 2 === 0 ? 'bg-white bg-opacity-60' : 'bg-gray-200 bg-opacity-60'} hover:bg-gray-300`}>
+                <td className="font-semibold px-6 py-2 bg-opacity-60 text-center">{race.round}</td>
+                <td className="px-6 py-2 bg-opacity-60 text-center">{race.name}</td>
+                <td className="px-6 py-2 bg-opacity-60 text-center">
                   <Link to={`/race-results/${race.raceId}`} className="mr-2">
-                    <button className="text-white bg-[#A9A9A9] hover:bg-[#6b7075] hover:text-white font-medium rounded text-sm px-3 py-2 text-center inline-flex items-center">
+                    <button className="text-gray-700 bg-[#8DA399] hover:bg-gray-300 rounded px-3 py-1">
                       Results
                     </button>
                   </Link>
-                  <Link to={`/race-standings/${race.raceId}`} className="mr-2">
-                    <button className="text-white bg-[#A9A9A9] hover:bg-[#6b7075] hover:text-white font-medium rounded text-sm px-3 py-2 text-center inline-flex items-center">
+                  <Link to={`/race-standings/${race.raceId}`}>
+                    <button className="text-gray-700 bg-[#8DA399] hover:bg-gray-300 rounded px-3 py-1">
                       Standings
                     </button>
                   </Link>
-                </div>
-              </div>
+                </td>
+              </tr>
             ))}
-        </div>
-      </div>
-    </section>
+          </tbody>
+        </table>
+      </section>
     </div>
   );
 };
 
 export default DisplayRaces;
-

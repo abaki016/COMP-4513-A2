@@ -20,7 +20,7 @@ const AboutModal = (props) => {
   if (!props.open) return null; // if the modal is not open, don't render anything
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm">
       <div
         ref={modalRef}
         className="p-6 bg-white rounded-md shadow-md w-80"

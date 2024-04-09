@@ -1,6 +1,6 @@
 const FavoritesModal = (props) => {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 backdrop-filter backdrop-blur-sm">
+      <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 bg-opacity-50 backdrop-filter backdrop-blur-sm">
         <div className="container mx-auto p-5 border w-1/2 shadow-lg rounded-md bg-white">
           <div className="text-center">
             <h2 className="text-2xl font-bold my-4">Favorites</h2>
