@@ -15,56 +15,63 @@ import CircuitDetailModal from "./components/CircuitDetailModal.jsx";
 function App() {
   const navigate = useNavigate();
 
-  // favorites 
+  // favorites
   const [favoriteDrivers, setFavoriteDrivers] = useState([]);
   const [favoriteConstructors, setFavoriteConstructors] = useState([]);
   const [favoriteCircuits, setFavoriteCircuits] = useState([]);
   const [isFavoritesModalOpen, setFavoritesModalOpen] = useState(false);
 
   const addDriverToFavorites = (driver) => {
-    setFavoriteDrivers(prevFavorites => {
+    setFavoriteDrivers((prevFavorites) => {
       // Prevent duplication
-      const isAlreadyFavoriteDriver = prevFavorites.some(favDriver => favDriver.driverId === driver.driverId);
+      const isAlreadyFavoriteDriver = prevFavorites.some(
+        (favDriver) => favDriver.driverId === driver.driverId
+      );
 
-      if(!isAlreadyFavoriteDriver) {
+      if (!isAlreadyFavoriteDriver) {
         return [...prevFavorites, driver];
       } else {
         return prevFavorites;
       }
-    })
-  }
+    });
+  };
 
   const addConstructorToFavorites = (constructor) => {
-    setFavoriteConstructors(prevFavorites => {
-      const isAlreadyFavoriteConstructor = prevFavorites.some(favConstructor => favConstructor.constructorId === constructor.constructorId);
+    setFavoriteConstructors((prevFavorites) => {
+      const isAlreadyFavoriteConstructor = prevFavorites.some(
+        (favConstructor) =>
+          favConstructor.constructorId === constructor.constructorId
+      );
 
-      if(!isAlreadyFavoriteConstructor) {
+      if (!isAlreadyFavoriteConstructor) {
         return [...prevFavorites, constructor];
       } else {
         return prevFavorites;
       }
-    })
-  }
+    });
+  };
 
   const addCircuitToFavorites = (circuit) => {
-    setFavoriteCircuits(prevFavorites => {
-      const isAlreadyFavoriteCircuit = prevFavorites.some(favCircuit => favCircuit.circuitId === circuit.circuitId);
+    setFavoriteCircuits((prevFavorites) => {
+      const isAlreadyFavoriteCircuit = prevFavorites.some(
+        (favCircuit) => favCircuit.circuitId === circuit.circuitId
+      );
 
-      if(!isAlreadyFavoriteCircuit) {
+      if (!isAlreadyFavoriteCircuit) {
         return [...prevFavorites, circuit];
       } else {
         return prevFavorites;
       }
-    })
-  }
+    });
+  };
 
   const emptyFavorites = () => {
     setFavoriteDrivers([]);
-  }
+  };
 
   const toggleFavoritesModal = () => {
-    setFavoritesModalOpen(prev => !prev);
-  }
+    setFavoritesModalOpen((prev) => !prev);
+  };
 
   //====================================
 
@@ -77,26 +84,32 @@ function App() {
   // Use state for selected driver, constructor (modals)
   const [selectedDriver, setSelectedDriver] = useState(null);
   const [selectedConstructor, setSelectedConstructor] = useState(null);
-  const [selectedCircuit, setSelectedCircuit] = useState(null)
-
+  const [selectedCircuit, setSelectedCircuit] = useState(null);
 
   const showDriverDetails = (driver) => {
     setSelectedDriver(driver);
   };
   const showConstructorDetails = (constructor) => {
-    setSelectedConstructor(constructor)
-  }
+    setSelectedConstructor(constructor);
+  };
 
   const showCircuitDetails = (circuit) => {
     setSelectedCircuit(circuit);
-  }
+  };
 
   const closeModal = () => {
     setSelectedDriver(null);
     setSelectedConstructor(null);
     setSelectedCircuit(null);
-  }
+  };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const closeAllModals = () => {
+    closeModal();
+
+    setIsModalOpen(false);
+  };
   //=========================================
 
   // Fetch seasons on component mount
@@ -183,41 +196,65 @@ function App() {
         />
         <Route
           path={"/race-results/:raceId"}
-          element={<ResultsComponent 
-              showDriverDetails={showDriverDetails} 
+          element={
+            <ResultsComponent
+              showDriverDetails={showDriverDetails}
               showConstructorDetails={showConstructorDetails}
               showCircuitDetails={showCircuitDetails}
-              selectedDriver={selectedDriver} 
+              selectedDriver={selectedDriver}
               selectedConstructor={selectedConstructor}
-          />}
+              isModalOpen={isModalOpen}
+              closeModal={closeAllModals}
+            />
+          }
         />
-        <Route path={"/race-standings/:raceId"} 
-          element={<StandingsComponent 
-              showDriverDetails={showDriverDetails} 
-              showConstructorDetails={showConstructorDetails} 
+        <Route
+          path={"/race-standings/:raceId"}
+          element={
+            <StandingsComponent
+              showDriverDetails={showDriverDetails}
+              showConstructorDetails={showConstructorDetails}
               showCircuitDetails={showCircuitDetails}
-              selectedDriver={selectedDriver} 
+              selectedDriver={selectedDriver}
               selectedConstructor={selectedConstructor}
-          />} 
+            />
+          }
         />
-        </Routes>
+      </Routes>
 
       {/* Modals for clickable links (driver, constructor) */}
-      {selectedDriver && (<DriverDetailModal driverDetail={selectedDriver} addDriverToFavorites={addDriverToFavorites} onClose={closeModal}/>)}
-      {selectedConstructor && (<ConstructorDetailModal constructorDetail={selectedConstructor} addConstructorToFavorites={addConstructorToFavorites} onClose={closeModal} />)}
-      {selectedCircuit && (<CircuitDetailModal circuitDetail={selectedCircuit} addCircuitToFavorites={addCircuitToFavorites} onClose={closeModal}/>)}
+      {selectedDriver && (
+        <DriverDetailModal
+          driverDetail={selectedDriver}
+          addDriverToFavorites={addDriverToFavorites}
+          onClose={closeModal}
+        />
+      )}
+      {selectedConstructor && (
+        <ConstructorDetailModal
+          constructorDetail={selectedConstructor}
+          addConstructorToFavorites={addConstructorToFavorites}
+          onClose={closeModal}
+        />
+      )}
+      {selectedCircuit && (
+        <CircuitDetailModal
+          circuitDetail={selectedCircuit}
+          addCircuitToFavorites={addCircuitToFavorites}
+          onClose={closeModal}
+        />
+      )}
 
       {/* Modal for favorites (driver, circuit, contructors) */}
-      {isFavoritesModalOpen 
-        && (<FavoritesModal 
-              favoriteDrivers={favoriteDrivers}
-              favoriteConstructors={favoriteConstructors}
-              favoriteCircuits={favoriteCircuits}
-              emptyFavorites={emptyFavorites} 
-              onClose={() => setFavoritesModalOpen(false)}
-            />
-          )}
-      
+      {isFavoritesModalOpen && (
+        <FavoritesModal
+          favoriteDrivers={favoriteDrivers}
+          favoriteConstructors={favoriteConstructors}
+          favoriteCircuits={favoriteCircuits}
+          emptyFavorites={emptyFavorites}
+          onClose={() => setFavoritesModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
