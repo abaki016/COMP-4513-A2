@@ -30,9 +30,9 @@ const AboutModal = (props) => {
         </span>
         <h1 className="mb-4 text-xl font-bold">About This Project</h1>
         <div className="mb-4">
-          <a href="https://github.com/fawzisilver" className="block hover:text-blue-500">Isaac Abelida</a>
-          <a href="https://github.com/abaki016" className="block hover:text-blue-500">Arthur Bakir</a>
-          <a href="https://github.com/abaki016/COMP-4513-A2" className="block hover:text-blue-500">Repository</a>
+          <a href="https://github.com/fawzisilver" target="_blank" className="block hover:text-blue-500">Isaac Abelida</a>
+          <a href="https://github.com/abaki016" target="_blank" className="block hover:text-blue-500">Arthur Bakir</a>
+          <a href="https://github.com/abaki016/COMP-4513-A2" target="_blank" className="block hover:text-blue-500">Repository</a>
         </div>
       </div>
     </div>
