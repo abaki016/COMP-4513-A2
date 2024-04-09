@@ -1,18 +1,11 @@
-import { useState, useEffect } from "react";
-
-import { Routes, Route } from "react-router-dom";
+import React, { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "./supabaseClient.js";
-import Header from "./components/Header.jsx";
-import DisplayRaces from "./components/DisplayRaces.jsx";
-import ResultsComponent from "./components/ResultsComponent.jsx";
-import StandingsComponent from "./components/StandingsComponent.jsx";
-import DriverDetailModal from "./components/DriverDetailModal.jsx";
-import ConstructorDetailModal from "./components/ConstructorDetailModal.jsx";
-import FavoritesModal from "./components/FavoritesModal.jsx";
-import CircuitDetailModal from "./components/CircuitDetailModal.jsx";
+import Login from "./components/Login.jsx";
+import Home from "./Home.jsx"; // Import the Home component
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   // favorites
@@ -164,36 +157,8 @@ function App() {
 
   return (
     <div>
-      <Header
-        selectedSeason={selectedSeason}
-        onSeasonChange={handleSeasonChange}
-        seasons={seasons}
-        modalAboutOpen={modalAboutOpen}
-        openAboutModal={openAboutModal}
-        closeAboutModal={closeAboutModal}
-        toggleFavoritesModal={toggleFavoritesModal}
-        favoriteDrivers={favoriteDrivers}
-        favoriteConstructors={favoriteConstructors}
-        favoriteCircuits={favoriteCircuits}
-      />
-
-      <Routes key={selectedSeason}>
-        {/* if we selected Season then display races */}
-        <Route
-          path="/"
-          element={
-            selectedSeason ? (
-              <DisplayRaces
-                seasonRaces={racesForSeason}
-                selectedSeason={selectedSeason}
-              />
-            ) : (
-              <div>
-                <h2>Select season year 😁</h2>
-              </div>
-            )
-          }
-        />
+      <Routes>
+        <Route path="/" element={<Login onLogin={handleLogin} />} />
         <Route
           path={"/race-results/:raceId"}
           element={
