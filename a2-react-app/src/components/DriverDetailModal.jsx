@@ -15,8 +15,9 @@ const DriverDetailModal = (props) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 backdrop-filter backdrop-blur-sm">
       <div className="container mx-auto p-5 border w-3/4 shadow-lg rounded-md bg-white">
+        
         {/* Modal content */}
         <div className="text-right">
           <button
@@ -30,11 +31,11 @@ const DriverDetailModal = (props) => {
         <div className="text-center">
           <h1 className="text-2xl font-bold my-4">Driver Details</h1>
           <div className="bg-white border rounded-lg shadow-md p-4">
-            <p className="font-medium font-serif text-2xl tracking-wide text-left">
+            <p className="font-sans font-bold text-gray-600 text-lg text-left">
               Name: <span  className="font-light text-xl tracking-wide pl-2">{props.driverDetail.forename} {props.driverDetail.surname}</span>
             </p>
-            <p className="font-medium font-serif text-2xl tracking-wide text-left">Nationality: <span className="font-light text-xl tracking-wide pl-2">{props.driverDetail.nationality}</span></p>
-            <p className="font-medium font-serif text-2xl tracking-wide text-left">Age: <span className="font-light text-xl tracking-wide pl-2">{calculateAge(props.driverDetail.dob)}</span></p>
+            <p className="font-sans font-bold text-gray-600 text-lg text-left">Nationality: <span className="font-light text-xl tracking-wide pl-2">{props.driverDetail.nationality}</span></p>
+            <p className="font-sans font-bold text-gray-600 text-lg text-left">Age: <span className="font-light text-xl tracking-wide pl-2">{calculateAge(props.driverDetail.dob)}</span></p>
             <p>
               <a
                 href={props.driverDetail.url}

@@ -231,6 +231,7 @@ function App() {
               showCircuitDetails={showCircuitDetails}
               selectedDriver={selectedDriver}
               selectedConstructor={selectedConstructor}
+              selectedCircuit={selectedCircuit}
             />
           }
         />

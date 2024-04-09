@@ -250,11 +250,25 @@ const ResultsComponent = (props) => {
       {props.selectedDriver && (
       <DriverDetailModal
         driverDetail={props.selectedDriver}
-        onClose={props.closeDriverModal}
-        // Add this if you have a function to handle adding to favorites
         addDriverToFavorites={props.addDriverToFavorites}
+        // onClose={props.closeDriverModal}
+        
       />
     )}
+
+    {props.selectedConstructor && (
+    <ConstructorDetailModal
+      constructorDetail={props.selectedConstructor}
+     addConstructorToFavorites={props.addConstructorToFavorites}
+    // onClose={() => setSelectedConstructor(null)} // Ensure you have a function to close the modal
+    />
+    )}
+
+    {props.selectedCircuit && (<CircuitDetailModal 
+      circuitDetail={props.circuitDetail}
+      addCircuitToFavorites={props.addCircuitToFavorites}/>)}
+
+    
   
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
