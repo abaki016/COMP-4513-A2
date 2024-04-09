@@ -8,6 +8,7 @@ import Header from "./components/Header.jsx";
 import DisplayRaces from "./components/DisplayRaces.jsx";
 import ResultsComponent from "./components/ResultsComponent.jsx";
 import StandingsComponent from "./components/StandingsComponent.jsx";
+import Login from "./components/Login.jsx"
 import DriverDetailModal from "./components/DriverDetailModal.jsx";
 import ConstructorDetailModal from "./components/ConstructorDetailModal.jsx";
 import FavoritesModal from "./components/FavoritesModal.jsx";
@@ -16,6 +17,15 @@ import CircuitDetailModal from "./components/CircuitDetailModal.jsx";
 
 function App() {
   const navigate = useNavigate();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State for login status
+  const [showLoginForm, setShowLoginForm] = useState(true); // State to control login form visibility
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+    setShowLoginForm(false); // Hide the login form after successful login
+    navigate("/");
+  };
 
 
   // favorites
@@ -180,7 +190,12 @@ function App() {
 
   return (
     <div>
-      <Header
+      <div>
+        {!isLoggedIn && <Login onLogin={handleLogin} />} {/* Render the login form only if not logged in */}
+        {isLoggedIn && ( // Render main content when logged in
+          <div>
+            {/* Your main content here */}
+            <Header
         selectedSeason={selectedSeason}
         onSeasonChange={handleSeasonChange}
         seasons={seasons}
@@ -272,6 +287,10 @@ function App() {
           onClose={() => setFavoritesModalOpen(false)}
         />
       )}
+          </div>
+        )}
+      </div>
+      
     </div>
   );
 }

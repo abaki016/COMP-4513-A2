@@ -1,65 +1,31 @@
 import { useState } from "react";
 
 const Login = ({ onLogin }) => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [loginError, setLoginError] = useState("");
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Simulate authentication process (can be replaced with actual authentication logic)
+    // For simplicity, just call the onLogin function to simulate successful login
+    onLogin();
+  };
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-        // Simulate login logic (you can replace this with actual authentication logic)
-        console.log("Simulating login...");
-        if (email === "test@example.com" && password === "password") {
-            console.log("Login successful");
-            // Call the onLogin function passed from props
-            onLogin();
-        } else {
-            console.log("Login failed");
-            setLoginError("Invalid email or password");
-        }
-    };
-
-    const handleRegister = () => {
-        // Simulate register logic (you can replace this with actual registration logic or navigate to a registration page)
-        console.log("Simulating registration...");
-        // Navigate to registration page if needed
-    };
-
-    return (
-        <div>
-            {/* Hero Image with Application Name */}
-            <h1 style={{ textAlign: "center" }}>COMP 4513 Assignment #2: React</h1>
-            {/* Login Form */}
-            <div style={{ textAlign: "center" }}>
-                <h2>Login</h2>
-                <form onSubmit={handleLogin}>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                    <br />
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    <br />
-                    <button type="submit">Login</button>
-                    <button type="button" onClick={handleRegister}>
-                        Register
-                    </button>
-                </form>
-                {loginError && <p style={{ color: "red" }}>{loginError}</p>}
-            </div>
-        </div>
-    );
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-center bg-cover" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1627937027653-567739d28b9c?q=80&w=3024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')` }}>
+      <div className="p-8 bg-white rounded-lg shadow-md">
+        <h2 className="mb-4 text-2xl font-bold">Login</h2>
+        <form onSubmit={handleLogin}>
+          <div className="mb-4">
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username:</label>
+            <input type="text" id="username" name="username" className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password:</label>
+            <input type="password" id="password" name="password" className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+          </div>
+          <button type="submit" className="w-full px-4 py-2 text-white bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">Login</button>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default Login;
