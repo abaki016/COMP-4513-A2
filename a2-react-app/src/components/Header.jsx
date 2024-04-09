@@ -21,6 +21,7 @@ const Header = (props) => {
           value={props.selectedSeason}
           onChange={props.onSeasonChange}
         >
+          <option value="" disabled>Select year</option>
           {props.seasons.map((season, indx) => (
             <option key={indx} value={season.year}>
               {season.year}
@@ -47,7 +48,7 @@ const Header = (props) => {
           Favorites
         </button>
         <button
-          className="px-4 py-2 ml-2 font-sans font-bold text-gray-700 border border-gray-300 rounded-md bg-light-gray hover:bg-customBeige2"
+          className="px-4 py-2 ml-2 font-sans font-bold text-gray-700 border border-gray-300 rounded-md bg-light-gray hover:bg-[#8DA399]"
           onClick={props.openAboutModal}
         >
           About

@@ -21,9 +21,7 @@ function App() {
 
   const [noSelectedSeason, isNoSelectedSeason] = useState(true);
 
-  const toResult = () => {
-    isNoSelectedSeason(false);
-  }
+
 
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State for login status
   const [showLoginForm, setShowLoginForm] = useState(true); // State to control login form visibility
