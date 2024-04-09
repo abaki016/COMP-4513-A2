@@ -13,9 +13,9 @@ const DisplayRaces = (props) => {
         <table className="divide-y divide-gray-200 w-full bg-white bg-opacity-60 rounded-lg overflow-hidden">
           <thead className="bg-opacity-60">
             <tr>
-              <th className="text-white font-semibold text-lg px-6 py-4">Round</th>
-              <th className="text-white font-semibold text-lg px-6 py-4">Circuit</th>
-              <th className="text-white font-semibold text-lg px-6 py-4">Actions</th>
+              <th className="text-black font-normal text-lg px-6 py-4">Round</th>
+              <th className="text-black font-normal text-lg px-6 py-4">Circuit</th>
+              <th className="text-black font-normal text-lg px-6 py-4">Actions</th>
             </tr>
           </thead>
           <tbody>
