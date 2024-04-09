@@ -18,7 +18,7 @@ const DisplayRaces = (props) => {
         <div className="bg-white bg-opacity-60">
           {props.seasonRaces &&
             props.seasonRaces.map((race, indx) => (
-              <div key={indx} className={`flex justify-between px-6 py-2 ${indx % 2 !== 0 ? 'bg-[#F8F8F8]' : ''}`}>
+              <div key={indx} className={`flex justify-between px-6 py-2 font-sans ${indx % 2 !== 0 ? 'bg-[#F8F8F8]' : ''}`}>
                 <div className="whitespace-nowrap">{race.round}</div>
                 <div className="whitespace-nowrap">{race.name}</div>
                 <div className="whitespace-nowrap">

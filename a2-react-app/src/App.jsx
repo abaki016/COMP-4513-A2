@@ -94,6 +94,8 @@ function App() {
 
   const emptyFavorites = () => {
     setFavoriteDrivers([]);
+    setFavoriteCircuits([]);
+    setFavoriteConstructors([]);
   };
 
 

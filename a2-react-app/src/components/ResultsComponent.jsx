@@ -191,7 +191,8 @@ const ResultsComponent = (props) => {
       </div>
       {/* adding space between table and header */}
       <br />
-      <table className="min-w-min border-collapse border border-gray-200">
+      <table className="min-w-min border-collapse border border-gray-200" bg-opacity-60 style={{ backgroundImage: `url('/fpvmat-a-sFPoi1s-1Eo-unsplash.jpg')` }}>
+        
         <thead className="bg-gray-100">
           <tr>
             <th className="border border-gray-200 px-5 py-2">Pos</th>
@@ -283,12 +284,12 @@ const ResultsComponent = (props) => {
               </button>
             </div>
 
-
-            <div>
+            
+            <div >
               <h1 className="text-2xl font-bold text-center my-4">
                 Race Details
               </h1>
-              <div className="flex justify-center space-x-4 my-4">
+              <div className="flex justify-center space-x-4 my-4 ">
                 {topThree
                   .filter(
                     (result) => result.position >= 1 && result.position <= 3
