@@ -11,7 +11,7 @@ const Header = (props) => {
       <div className="flex">
         <label
           htmlFor="season-select"
-          className="mt-1 text-gray-600 font-sans font-bold"
+          className="mt-1 font-sans font-bold text-gray-600"
         >
           Season
         </label>
@@ -31,7 +31,7 @@ const Header = (props) => {
 
       {/* This div is just for centering the title */}
       <div className="flex-grow text-center">
-        <span className="text-2xl font-sans font-extrabold tracking-wide text-gray-700">
+        <span className="font-sans text-2xl font-extrabold tracking-wide text-gray-700">
           F1 Dashboard Project
         </span>
       </div>
@@ -47,7 +47,7 @@ const Header = (props) => {
           Favorites
         </button>
         <button
-          className="ml-2 px-4 py-2 border rounded-md text-gray-700 border-gray-300 bg-light-gray hover:bg-customBeige2 font-sans font-bold"
+          className="px-4 py-2 ml-2 font-sans font-bold text-gray-700 border border-gray-300 rounded-md bg-light-gray hover:bg-customBeige2"
           onClick={props.openAboutModal}
         >
           About
